@@ -7,7 +7,11 @@ defmodule GlauthWeb.Router do
 
   scope "/api", GlauthWeb do
     pipe_through :api
+
+    post "/users/register", AuthController, :create
+    post "/users/login", AuthController, :login
   end
+
 
   # Enables the Swoosh mailbox preview in development.
   #

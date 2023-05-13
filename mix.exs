@@ -33,6 +33,9 @@ defmodule Glauth.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:guardian, "~> 2.0"},
+      {:poison, "~> 5.0"},
+      {:bcrypt_elixir, "~> 0.12"},
       {:phoenix, "~> 1.6.7"},
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.6"},

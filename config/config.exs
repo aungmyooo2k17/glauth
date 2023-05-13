@@ -17,6 +17,10 @@ config :glauth, GlauthWeb.Endpoint,
   pubsub_server: Glauth.PubSub,
   live_view: [signing_salt: "e839V9Ee"]
 
+config :glauth, Glauth.Guardian,
+  issuer: "glauth",
+  secret_key: "z2lfFl6ougv+PqTrvFeSdP+kkOt6M1+fPpeu0rdjajehcMjJ0IajRxg2meypkFBy"
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
