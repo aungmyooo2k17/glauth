@@ -9,6 +9,28 @@ defmodule Glauth.Accounts do
   alias Glauth.Accounts.{User, UserToken}
 
   @doc """
+  Gets a user by email.
+
+  ## Examples
+
+      iex> get_user_by_email("foo@example.com")
+      %User{}
+
+      iex> get_user_by_email("unknown@example.com")
+      nil
+
+  """
+  def get_user_by_email(email) when is_binary(email) do
+    case Repo.get_by(User, email: email) do
+      nil ->
+        {:error, "User with email: #{email} not found."}
+
+      data ->
+        {:ok, data}
+    end
+  end
+
+  @doc """
   Returns the list of users.
 
   ## Examples
@@ -139,11 +161,39 @@ defmodule Glauth.Accounts do
     if User.valid_password?(user, password), do: user
   end
 
-  def transform_user(user, token) do
-    %{
+  def transform_user(user),
+    do: %{
+      username: user.username,
+      email: user.email
+    }
+
+  def transform_user(user, token),
+    do: %{
       username: user.username,
       email: user.email,
       token: token
     }
+
+  @doc """
+  Resets the user password.
+
+  ## Examples
+
+      iex> reset_user_password(user, %{password: "new long password", password_confirmation: "new long password"})
+      {:ok, %User{}}
+
+      iex> reset_user_password(user, %{password: "valid", password_confirmation: "not the same"})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def reset_user_password(user, attrs) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.update(:user, User.password_changeset(user, attrs))
+    |> Ecto.Multi.delete_all(:tokens, UserToken.user_and_contexts_query(user, :all))
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{user: user}} -> {:ok, user}
+      {:error, :user, changeset, _} -> {:error, changeset}
+    end
   end
 end

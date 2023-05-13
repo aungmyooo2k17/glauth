@@ -103,6 +103,7 @@ defmodule Glauth.Accounts.User do
       Defaults to `true`.
   """
   def password_changeset(user, attrs, opts \\ []) do
+
     user
     |> cast(attrs, [:password])
     |> validate_confirmation(:password, message: "does not match password")

@@ -5,13 +5,23 @@ defmodule GlauthWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :jwt_authenticated do
+    plug GlauthWeb.MiddleWare.AuthPipeLine
+  end
+
   scope "/api", GlauthWeb do
     pipe_through :api
 
     post "/users/register", AuthController, :create
     post "/users/login", AuthController, :login
+    post "/users/reset_password", AuthController, :reset_password
   end
 
+  scope "/api", GlauthWeb do
+    pipe_through [:api, :jwt_authenticated]
+
+    get "/users/profile", UserController, :profile
+  end
 
   # Enables the Swoosh mailbox preview in development.
   #
