@@ -13,8 +13,8 @@ defmodule GlauthWeb.UserController do
 
       user ->
         conn
-        |> put_status(:created)
-        |> json(ResponseUtil.data_message_response(Accounts.transform_user(user)))
+        |> put_status(:ok)
+        |> json(ResponseUtil.success_data_response(Accounts.transform_user(user)))
     end
   end
 end

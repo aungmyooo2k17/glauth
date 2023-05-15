@@ -7,11 +7,17 @@ defmodule GlauthWeb.Utils.ResponseUtil do
     }
   end
 
-  def data_message_response(data) do
+  def success_message_response(data) do
     %{
       data: %{
         message: data
       }
+    }
+  end
+
+  def success_data_response(data) do
+    %{
+      data: data
     }
   end
 end

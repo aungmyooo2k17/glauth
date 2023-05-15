@@ -20,7 +20,7 @@ defmodule GlauthWeb.Router do
   scope "/api", GlauthWeb do
     pipe_through [:api, :jwt_authenticated]
 
-    get "/users/profile", UserController, :profile
+    get "/users/me", UserController, :profile
   end
 
   # Enables the Swoosh mailbox preview in development.

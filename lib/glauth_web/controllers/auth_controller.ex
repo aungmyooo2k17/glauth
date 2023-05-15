@@ -15,7 +15,7 @@ defmodule GlauthWeb.AuthController do
       {:ok, _user} ->
         conn
         |> put_status(:created)
-        |> json(ResponseUtil.data_message_response("Successfully created."))
+        |> json(ResponseUtil.success_message_response("Successfully created."))
 
       {:error, changeset} ->
         {_, {message, _}} = List.first(changeset.errors)
@@ -33,7 +33,7 @@ defmodule GlauthWeb.AuthController do
 
       conn
       |> put_status(:ok)
-      |> json(ResponseUtil.data_message_response(user))
+      |> json(ResponseUtil.success_data_response(user))
     else
       # In order to prevent user enumeration attacks, don't disclose whether the email is registered.
       conn
@@ -54,12 +54,12 @@ defmodule GlauthWeb.AuthController do
          {:ok, _} <- Accounts.reset_user_password(user, params) do
       conn
       |> put_status(:ok)
-      |> json(ResponseUtil.data_message_response("Password reset successfully."))
+      |> json(ResponseUtil.success_message_response("Password reset successfully."))
     else
       {:error, message} ->
         conn
         |> put_status(:not_found)
-        |> json(ResponseUtil.data_message_response(message))
+        |> json(ResponseUtil.error_message_response(message))
     end
   end
 end
