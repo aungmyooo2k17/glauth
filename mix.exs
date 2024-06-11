@@ -45,7 +45,7 @@ defmodule Glauth.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:cors_plug, "~> 3.0"}
+      # {:cors_plug, "~> 3.0"}
     ]
   end
 
